@@ -4,7 +4,7 @@
 # Thông tin môn học
 - Nhập môn học máy
 
-- Giáo viên hướng dẫn: PGS. TS. Bùi Tiến Lên
+- Giáo viên hướng dẫn: TS. Bùi Tiến Lên
 
 
 # Thông tin nhóm
