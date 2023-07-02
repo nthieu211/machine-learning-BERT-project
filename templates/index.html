@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BERT TOEIC</title>
+    <style>
+
+		html {
+			background-color: #411D41;
+			color: white;
+		}
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+
+		.input-row {
+			display: inline-flex;
+			width: 100%;
+			align-items: center;
+			margin-bottom: 10px; 
+		}
+
+		.input-row label {
+			margin-right: 10px; 
+		}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BERT TOEIC</h1>
+		<form action="/predict" method="post">
+			<!--
+			<label for="question"><h2>Entering your Question</h2></label>
+			<input type="text" id="question" name="question" placeholder="Enter your question" value="{{ question }}" required>
+			-->
+
+			<h2>Entering your Question</h2>
+			<div class"input-row">
+				<input type="text" id="questionPart1" name="questionPart1" oninput="toggleRequired()" placeholder="Before blank" value="{{ questionPart1 }}" required>
+				<p>&bull; &bull; &bull;</p>
+				<input type="text" id="questionPart2" name="questionPart2" oninput="toggleRequired()" placeholder="After blank" value="{{ questionPart2 }}" required>
+			</div>
+
+
+			<h2>Entering your Anwsers</h2>
+			<div class="input-row">
+				<label for="optionA">A:</label>
+				<input type="text" id="optionA" name="optionA" placeholder="Enter option A" value="{{ optionA }}">
+			</div>
+			<br/>
+
+			<div class="input-row">
+				<label for="optionB">B:</label>
+				<input type="text" id="optionB" name="optionB" placeholder="Enter option B" value="{{ optionB }}">
+			</div>
+			<br/>
+
+			<div class="input-row">
+				<label for="optionC">C:</label>
+				<input type="text" id="optionC" name="optionC" placeholder="Enter option C" value="{{ optionC }}" required>
+			</div>
+			<br/>
+
+			<div class="input-row">
+				<label for="optionD">D:</label>
+				<input type="text" id="optionD" name="optionD" placeholder="Enter option D" value="{{ optionD }}" required>
+			</div>
+			<br/>
+
+			<button type="submit">Generate Answer</button>
+		</form>
+
+        {% if answer %}
+        <h2>Predicted answer is:
+        <mark>{{ answer }}</mark>
+		</h2>
+        {% endif %}
+    </div>
+</body>
+
+
+<script>
+function toggleRequired() {
+    const questionPart1Input = document.getElementById("questionPart1");
+    const questionPart2Input = document.getElementById("questionPart2");
+  
+    if (questionPart1Input.value.trim() !== "") {
+      questionPart2Input.removeAttribute("required");
+    } else {
+      questionPart2Input.setAttribute("required", "required");
+    }
+}
+</script>
+</html>
