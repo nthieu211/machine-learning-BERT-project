@@ -61,15 +61,16 @@ class TOEICBert:
 # ========================================================================================================================
 
 app = Flask(__name__)
-s3 = boto3.client('s3')
 
-def load_model_from_s3():
-    model_object = s3.get_object(Bucket='bert-toeic', Key='model_pytorch.pt')
-    model_bytes = model_object['Body'].read()
-    model = torch.load(io.BytesIO(model_bytes))
-    return model
+s3_client = boto3.client('s3')
 
-model = load_model_from_s3()
+# Download the model from the s3 bucket
+response = s3_client.get_object(Bucket='bert-toeic', Key='model_pytorch.pt')
+
+# Read the binary data from the response
+binary_data = response['Body'].read()
+
+model = torch.load(binary_data)
 
 @app.route("/",methods=["GET"])
 def index():
