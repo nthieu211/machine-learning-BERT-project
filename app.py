@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request
+import io
+import boto3
 import torch
 import torch.nn as nn
 from transformers import AutoTokenizer
@@ -59,7 +61,16 @@ class TOEICBert:
 # ========================================================================================================================
 
 app = Flask(__name__)
-model = torch.load("model_training/model_pytorch.pt")  # Load the PyTorch model
+
+s3_client = boto3.client('s3')
+
+# Download the model from the s3 bucket
+response = s3_client.get_object(Bucket='bert-toeic', Key='model_pytorch.pt')
+
+# Read the binary data from the response
+binary_data = response['Body'].read()
+
+model = torch.load(binary_data)
 
 @app.route("/",methods=["GET"])
 def index():
@@ -86,4 +97,4 @@ def predict():
     return render_template('index.html', answer=answer, questionPart1=questionPart1, questionPart2=questionPart2, optionA=optionA, optionB=optionB, optionC=optionC, optionD=optionD)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=8888)
+    app.run(debug=True)
