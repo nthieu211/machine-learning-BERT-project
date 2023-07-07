@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect
 import torch
 import torch.nn as nn
 from transformers import AutoTokenizer
@@ -60,6 +60,11 @@ class TOEICBert:
 
 app = Flask(__name__)
 model = torch.load("model_training/model_pytorch.pt")  # Load the PyTorch model
+
+# Load Browser Favorite Icon
+@app.route('/favicon.ico')
+def favicon():
+    return redirect(url_for('static', filename='favicon.ico'), code=302)
 
 @app.route("/",methods=["GET"])
 def index():
